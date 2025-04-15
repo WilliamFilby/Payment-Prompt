@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Prompt</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <h1>Payment Prompt</h1>
+  <form id="jobForm" onsubmit="addJob(); return false;">
+    <input type="date" id="date" required />
+    <input type="text" id="customer" placeholder="Customer Name" required />
+    <input type="text" id="horse" placeholder="Horse Name" required />
+    <input type="text" id="service" placeholder="Service" required />
+    <input type="number" id="price" placeholder="Price (£)" required />
+    <button type="submit">Add Job</button>
+  </form>
+  <div id="jobList"></div>
+  <script src="app.js"></script>
+</body>
+</html>
