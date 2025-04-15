@@ -1,21 +1,39 @@
+
+// Payment Prompt App - Personalized Version
+// Now greets user by name and allows setting of reminder time/day
+
+let userName = localStorage.getItem('userName') || '';
+let reminderTime = localStorage.getItem('reminderTime') || '09:00';
+let reminderDay = localStorage.getItem('reminderDay') || 'Sunday';
 const jobs = [];
 
+function setPreferences() {
+  userName = document.getElementById('nameInput').value;
+  reminderTime = document.getElementById('reminderTime').value;
+  reminderDay = document.getElementById('reminderDay').value;
+  localStorage.setItem('userName', userName);
+  localStorage.setItem('reminderTime', reminderTime);
+  localStorage.setItem('reminderDay', reminderDay);
+  document.getElementById('greeting').innerText = `Hello, ${userName}`;
+  document.getElementById('setup').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+}
+
 function addJob() {
-  const date = document.getElementById('date').value;
   const customer = document.getElementById('customer').value;
   const horse = document.getElementById('horse').value;
   const service = document.getElementById('service').value;
   const price = document.getElementById('price').value;
+  const paid = document.getElementById('paid').checked;
 
-  if (date && customer && horse && service && price) {
+  if (customer && horse && service && price) {
     jobs.push({
       id: Date.now(),
-      date,
       customer,
       horse,
       service,
       price,
-      paid: false
+      paid
     });
     renderJobs();
     clearForm();
@@ -38,7 +56,8 @@ function renderJobs() {
     jobItem.className = 'job-item';
     jobItem.innerHTML = `
       <div class="card">
-        <p><strong>${job.date}</strong><br>${job.customer} (${job.horse})<br>${job.service} – £${job.price}</p>
+        <p>${job.customer} – ${job.horse}<br>
+        ${job.service} – £${job.price}</p>
         <label>Paid: <input type="checkbox" ${job.paid ? 'checked' : ''} onchange="togglePaid(${job.id})"></label>
       </div>
     `;
@@ -47,34 +66,35 @@ function renderJobs() {
 }
 
 function clearForm() {
-  document.getElementById('date').value = '';
   document.getElementById('customer').value = '';
   document.getElementById('horse').value = '';
   document.getElementById('service').value = '';
   document.getElementById('price').value = '';
+  document.getElementById('paid').checked = false;
 }
 
 function checkUnpaidReminders() {
   const today = new Date();
-  const lastWeek = new Date(today);
-  lastWeek.setDate(today.getDate() - 7);
+  const dayName = today.toLocaleDateString('en-GB', { weekday: 'long' });
+  const currentTime = `${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}`;
 
-  const unpaid = jobs.filter(job => !job.paid && new Date(job.date) >= lastWeek);
-  if (unpaid.length > 0) {
-    alert(`You have ${unpaid.length} unpaid jobs this week. Time to follow up!`);
-  }
-}
-
-function setupReminder() {
-  const now = new Date();
-  const day = now.getDay();
-  const hour = now.getHours();
-  if (day === 0 && hour === 9) {
-    checkUnpaidReminders();
+  if (dayName === reminderDay && currentTime === reminderTime) {
+    const unpaid = jobs.filter(job => !job.paid);
+    if (unpaid.length > 0) {
+      alert(`You have ${unpaid.length} unpaid job(s) to follow up.`);
+    }
   }
 }
 
 window.onload = () => {
+  if (!userName) {
+    document.getElementById('setup').style.display = 'block';
+    document.getElementById('mainApp').style.display = 'none';
+  } else {
+    document.getElementById('greeting').innerText = `Hello, ${userName}`;
+    document.getElementById('setup').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+  }
   renderJobs();
-  setupReminder();
+  setInterval(checkUnpaidReminders, 60000); // check every minute
 };

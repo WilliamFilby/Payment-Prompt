@@ -8,16 +8,34 @@
   <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-  <h1>Payment Prompt</h1>
-  <form id="jobForm" onsubmit="addJob(); return false;">
-    <input type="date" id="date" required />
-    <input type="text" id="customer" placeholder="Customer Name" required />
-    <input type="text" id="horse" placeholder="Horse Name" required />
-    <input type="text" id="service" placeholder="Service" required />
-    <input type="number" id="price" placeholder="Price (£)" required />
-    <button type="submit">Add Job</button>
-  </form>
-  <div id="jobList"></div>
+  <div id="setup">
+    <h2>Welcome to Payment Prompt</h2>
+    <input type="text" id="nameInput" placeholder="Enter your name" required />
+    <label>Reminder Day:
+      <select id="reminderDay">
+        <option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+        <option>Thursday</option><option>Friday</option><option>Saturday</option>
+      </select>
+    </label>
+    <label>Reminder Time:
+      <input type="time" id="reminderTime" value="09:00" />
+    </label>
+    <button onclick="setPreferences()">Start</button>
+  </div>
+
+  <div id="mainApp" style="display:none;">
+    <h1 id="greeting">Hello</h1>
+    <form id="jobForm" onsubmit="addJob(); return false;">
+      <input type="text" id="customer" placeholder="Customer Name" required />
+      <input type="text" id="horse" placeholder="Horse Name" required />
+      <input type="text" id="service" placeholder="Service" required />
+      <input type="number" id="price" placeholder="Value (£)" required />
+      <label>Paid? <input type="checkbox" id="paid" /></label>
+      <button type="submit">Add Job</button>
+    </form>
+    <div id="jobList"></div>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
