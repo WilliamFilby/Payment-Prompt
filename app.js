@@ -1,6 +1,5 @@
-
-// Payment Prompt App - Personalized Version
-// Now greets user by name and allows setting of reminder time/day
+// Payment Prompt App - Personalized Version with Persistent Storage
+// Now greets user by name, allows setting of reminder time/day, and saves job entries
 
 let userName = localStorage.getItem('userName') || '';
 let reminderTime = localStorage.getItem('reminderTime') || '09:00';
@@ -35,6 +34,7 @@ function addJob() {
       price,
       paid
     });
+    localStorage.setItem('jobs', JSON.stringify(jobs));
     renderJobs();
     clearForm();
   }
@@ -44,6 +44,7 @@ function togglePaid(id) {
   const job = jobs.find(j => j.id === id);
   if (job) {
     job.paid = !job.paid;
+    localStorage.setItem('jobs', JSON.stringify(jobs));
     renderJobs();
   }
 }
@@ -87,6 +88,10 @@ function checkUnpaidReminders() {
 }
 
 window.onload = () => {
+  const storedJobs = localStorage.getItem('jobs');
+  if (storedJobs) {
+    jobs.push(...JSON.parse(storedJobs));
+  }
   if (!userName) {
     document.getElementById('setup').style.display = 'block';
     document.getElementById('mainApp').style.display = 'none';
