@@ -1,9 +1,14 @@
+
 body {
   font-family: 'Spectral', serif;
   background: #f3f0e8;
   color: #2e2b28;
   margin: 0;
   padding: 1rem;
+}
+body.dark {
+  background: #2b2b2b;
+  color: #f0e8dc;
 }
 h1, h2 {
   text-align: center;
@@ -23,6 +28,11 @@ input, select, button {
   border: 1px solid #c2b7a6;
   background: #fffdf8;
 }
+body.dark input, body.dark select, body.dark button {
+  background: #444;
+  color: #fff;
+  border: 1px solid #888;
+}
 button {
   background: #4b3d2e;
   color: white;
@@ -40,6 +50,10 @@ button:hover {
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   border: 1px solid #ddd0bb;
+}
+body.dark .card {
+  background: #3a3a3a;
+  border: 1px solid #666;
 }
 h3 {
   font-weight: 600;
