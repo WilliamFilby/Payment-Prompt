@@ -3,8 +3,8 @@
   "short_name": "Prompt",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#333333",
+  "background_color": "#f3f0e8",
+  "theme_color": "#4b3d2e",
   "icons": [
     {
       "src": "icon-192.png",
